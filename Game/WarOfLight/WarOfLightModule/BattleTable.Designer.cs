@@ -1,6 +1,6 @@
 ﻿namespace WarOfLightModule
 {
-    partial class Form1
+    partial class BattleTable
     {
         /// <summary>
         /// Required designer variable.

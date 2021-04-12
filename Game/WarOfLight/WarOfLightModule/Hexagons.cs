@@ -9,7 +9,7 @@ namespace WarOfLightModule
     {
         public Point Center;
         public int Size;
-        private Point[] hexCorner;
+        private readonly Point[] hexCorner;
         //private static StackCreature creature; Поля для значения существа
 
 

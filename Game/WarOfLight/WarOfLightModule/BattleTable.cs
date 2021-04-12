@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace WarOfLightModule
 {
-    public partial class Form1 : Form
+    public partial class BattleTable : Form
     {
-        public Form1()
+        public BattleTable()
         {
             InitializeComponent();
         }
@@ -23,9 +23,15 @@ namespace WarOfLightModule
             var pen = new Pen(Color.Black);
             var map = new Map(new Point(40, 20), 40);
 
-            for(int y = 0; y < map.CountY; y++)
+            DrawMap(graphics, pen, map);
+            button1.Enabled = false;
+        }
+
+        private static void DrawMap(Graphics graphics, Pen pen, Map map)
+        {
+            for (int y = 0; y < map.CountY; y++)
                 for (int x = 0; x < map.CountX; x++)
-                    graphics.DrawLines(pen, map.Field[x,y].GetHexCorner());
+                    graphics.DrawLines(pen, map.Field[x, y].GetHexCorner());
         }
     }
 }
