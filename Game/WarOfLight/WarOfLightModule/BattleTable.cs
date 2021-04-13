@@ -24,6 +24,9 @@ namespace WarOfLightModule
             var map = new Map(new Point(40, 20), 40);
 
             DrawMap(graphics, pen, map);
+
+            var a = new CreaturStack();
+            
             button1.Enabled = false;
         }
 

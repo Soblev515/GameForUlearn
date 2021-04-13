@@ -6,31 +6,22 @@ using System.Threading.Tasks;
 
 namespace WarOfLightModule
 {
-    interface ICreture
+    public class Creture
     {
-        int Cost { get; set; }
-        int BasicGrowth { get; set; }
-        int Attack { get; set; }
-        int Defence { get; set; }
-        (int, int) Damage { get; set; }
-        int HP { get; set; }
-        int Initiative { get; set; }
-        int Move { get; set; }
-        int BasicShots { get; set; }
-        int BasicMana { get; set; }
+        private int Cost { get; set; }
+        private int BasicGrowth { get; set; }
+        private int Attack { get; set; }
+        private int Defence { get; set; }
+        private (int, int) Damage { get; set; }
+        private int HP { get; set; }
+        private int Initiative { get; set; }
+        private int Move { get; set; }
+        private int BasicShots { get; set; }
+        private int BasicMana { get; set; }
     }
 
-    class Creature: ICreture
+    public class CreaturStack: Creture
     {
-        int ICreture.Cost { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        int ICreture.BasicGrowth { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        int ICreture.Attack { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        int ICreture.Defence { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        (int, int) ICreture.Damage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        int ICreture.HP { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        int ICreture.Initiative { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        int ICreture.Move { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        int ICreture.BasicShots { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        int ICreture.BasicMana { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int count;
     }
 }
