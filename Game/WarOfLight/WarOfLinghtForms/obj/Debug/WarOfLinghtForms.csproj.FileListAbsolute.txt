@@ -1,0 +1,14 @@
+D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\obj\Debug\WarOfLinghtForms.Properties.Resources.resources
+D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\obj\Debug\WarOfLinghtForms.csproj.GenerateResource.cache
+D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\obj\Debug\WarOfLinghtForms.csproj.CoreCompileInputs.cache
+D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\obj\Debug\WarOfLinghtForms.csprojAssemblyReference.cache
+D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\bin\Debug\WarOfLinghtForms.exe.config
+D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\bin\Debug\WarOfLinghtForms.exe
+D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\bin\Debug\WarOfLinghtForms.pdb
+D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\bin\Debug\WarOfLightModule.dll
+D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\bin\Debug\WarOfLightModule.pdb
+D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\bin\Debug\WarOfLightModule.dll.config
+D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\obj\Debug\WarOfLinghtForms.csproj.CopyComplete
+D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\obj\Debug\WarOfLinghtForms.exe
+D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\obj\Debug\WarOfLinghtForms.pdb
+D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\obj\Debug\WarOfLightModule.BattleTable.resources

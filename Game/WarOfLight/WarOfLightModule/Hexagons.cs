@@ -5,12 +5,12 @@ using System.Text;
 
 namespace WarOfLightModule
 {
-    class Hexagons
+    public class Hexagons
     {
-        public Point Center;
-        public int Size;
+        public readonly Point Center;
+        public readonly int Size;
         private readonly Point[] hexCorner;
-        //private static StackCreature creature; Поля для значения существа
+        private static CreatureStack creature;
 
 
         public Hexagons()
@@ -31,6 +31,11 @@ namespace WarOfLightModule
             return hexCorner;
         }
 
+        public static (int, int) GetWidthAndHeigth(int size)
+        {
+            return (2 * Convert.ToInt32(size * Math.Cos(Math.PI / 180 * 30)), 2 * size);
+        }
+
         private Point[] SetHexCorner(Point center, int size)
         {
             var hexCorner = new List<Point>();
@@ -44,11 +49,6 @@ namespace WarOfLightModule
             hexCorner.Add(hexCorner[0]);
 
             return hexCorner.ToArray();
-        }
-
-        public static (int,int) GetWidthAndHeigth(int size)
-        {
-            return (2 * Convert.ToInt32(size * Math.Cos(Math.PI / 180 * 30)), 2 * size);
         }
     }
 }

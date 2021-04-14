@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace WarOfLightModule
 {
-    class Map
+    public class Map
     {
-        public int CountX = 15;
-        public int CountY = 11;
-        public Hexagons[,] Field;
+        public readonly int CountX = 15;
+        public readonly int CountY = 11;
+        public readonly Hexagons[,] Field;
 
         private static int widthHex;
         private static int heightHex;
