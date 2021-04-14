@@ -10,7 +10,7 @@ namespace WarOfLightModule
         public readonly Point Center;
         public readonly int Size;
         private readonly Point[] hexCorner;
-        private static CreatureStack creature;
+        private static CreatureStack Creature { set; get; }
 
 
         public Hexagons()
