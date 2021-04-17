@@ -62,6 +62,7 @@ namespace WarOfLightModule
             foreach (var b in a)
                 map.Field[b.Item1, b.Item2].activ = true;
             DrawMap(graphics, pen, map);
+            DrawCreature(graphics, map.Field[coord.Item1, coord.Item2], gm.playerStacks.Values.First().Creature);
         }
 
         //private void updateBox()

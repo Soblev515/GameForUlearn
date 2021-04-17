@@ -22,7 +22,7 @@ namespace WarOfLightModule
         }
         private void GeneratePlayerCreatures()
         {
-            playerStacks.Add((5, 5), new CreatureStack(new Militiaman(), 20));
+            playerStacks.Add((5, 6), new CreatureStack(new Militiaman(), 20));
             playerStacks.Add((0, 3), new CreatureStack(new Militiaman(), 10));
         }
 
@@ -54,12 +54,20 @@ namespace WarOfLightModule
             //            || playerStacks.ContainsKey(((x + dx), (y + dy)))) continue;
             //        else list.Add(((x + dx), (y + dy)));
 
-            var n = 1;
-            for(int row = y-move; row < y+move; row++)
-                for(int col = 0; col < move + n; col++)
-                    if (
-                        playerStacks.ContainsKey(((row), (y + col)))) continue;
-                    else list.Add((row, (y + col)));
+            var n = 0;
+            for(int row = y-move; row <= y; row++)
+            {
+                for (int col = x-move/2 - n/2 ; col <= x+move / 2 + (1 + n)/2; col++)
+                {
+                    if (row-x + col - y > move || 
+                        row < 0 || col < 0) continue;
+                    if(!playerStacks.ContainsKey(((col), (row))) && col < map.CountX && row < map.CountY)
+                        list.Add((col,row));
+                    if (!playerStacks.ContainsKey(((col), (y - row + move + 2))) && y - row + move + 2 < map.CountY)
+                        list.Add((col,y - row + move + 2));
+                }
+                n +=1;
+            }
             return list;
         }
     }
