@@ -29,8 +29,6 @@ namespace WarOfLightModule
                 for (int i = 0; i < CountX; i++)
                 {
                     Field[i, j] = new Hexagons(center, sizeHexagons);
-                    var a = new Creature();
-                    Field[i, j].SetCreatureStack(new CreatureStack(a, 9));
                     center.X += widthHex; 
                 }
             }

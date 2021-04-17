@@ -3,8 +3,8 @@ D:\Project\GameForUlearn\Game\WarOfLight\WarOfLightModule\obj\Debug\WarOfLightMo
 D:\Project\GameForUlearn\Game\WarOfLight\WarOfLightModule\obj\Debug\WarOfLightModule.csproj.GenerateResource.cache
 D:\Project\GameForUlearn\Game\WarOfLight\WarOfLightModule\obj\Debug\WarOfLightModule.csproj.CoreCompileInputs.cache
 D:\Project\GameForUlearn\Game\WarOfLight\WarOfLightModule\obj\Debug\WarOfLightModule.pdb
-D:\Project\GameForUlearn\Game\WarOfLight\WarOfLightModule\obj\Debug\WarOfLightModule.csprojAssemblyReference.cache
 D:\Project\GameForUlearn\Game\WarOfLight\WarOfLightModule\obj\Debug\WarOfLightModule.Form1.resources
 D:\Project\GameForUlearn\Game\WarOfLight\WarOfLightModule\bin\Debug\WarOfLightModule.dll.config
 D:\Project\GameForUlearn\Game\WarOfLight\WarOfLightModule\bin\Debug\WarOfLightModule.dll
 D:\Project\GameForUlearn\Game\WarOfLight\WarOfLightModule\obj\Debug\WarOfLightModule.dll
+D:\Project\GameForUlearn\Game\WarOfLight\WarOfLightModule\obj\Debug\WarOfLightModule.csprojAssemblyReference.cache
