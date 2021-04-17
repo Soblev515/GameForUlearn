@@ -22,7 +22,7 @@ namespace WarOfLightModule
         }
         private void GeneratePlayerCreatures()
         {
-            playerStacks.Add((0, 1), new CreatureStack(new Militiaman(), 20));
+            playerStacks.Add((5, 5), new CreatureStack(new Militiaman(), 20));
             playerStacks.Add((0, 3), new CreatureStack(new Militiaman(), 10));
         }
 
@@ -47,13 +47,19 @@ namespace WarOfLightModule
         public List<(int, int)> GetHexagonsForMove(int x, int y, int move)
         {
             var list = new List<(int, int)>();
-            for (var dy = -move; dy <= move; dy++)
-                for (var dx = -move; dx <= move; dx++)
-                    if (Math.Abs(dx - x) + Math.Abs(dy - y) >= move + 2 || 
-                        Math.Abs(dx - x) >= move || Math.Abs(dy - y) >= move 
-                        || x + dx < 0 || y + dy < 0 
-                        || playerStacks.ContainsKey(((x + dx), (y + dy)))) continue;
-                    else list.Add(((x + dx), (y + dy)));
+            //for (var dy = -move; dy <= move; dy++)
+            //    for (var dx = -move; dx <= move; dx++)
+            //        if ( Math.Abs(dy) +Math.Abs(dx) >= move + 2
+            //            || x + dx < 0 || y + dy < 0 
+            //            || playerStacks.ContainsKey(((x + dx), (y + dy)))) continue;
+            //        else list.Add(((x + dx), (y + dy)));
+
+            var n = 1;
+            for(int row = y-move; row < y+move; row++)
+                for(int col = 0; col < move + n; col++)
+                    if (
+                        playerStacks.ContainsKey(((row), (y + col)))) continue;
+                    else list.Add((row, (y + col)));
             return list;
         }
     }
