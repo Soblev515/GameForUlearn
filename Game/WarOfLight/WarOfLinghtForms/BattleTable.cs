@@ -13,47 +13,55 @@ namespace WarOfLightModule
 {
     public partial class BattleTable: Form
     {
-        Image table;
+        private Map map;
+        private GameManager gm;
+        private Graphics graphics;
+        private Pen pen = new Pen(Color.Black);
+        private static Brush brush = Brushes.Green;
         public BattleTable()
         {
             InitializeComponent();
             this.ClientSize = new Size(1800,900);
+            map = new Map(new Point(160, 20), 40);
+            gm = new GameManager(map);
+            graphics = CreateGraphics();
         }
 
         private void Button1_Click(object sender, EventArgs e)
-        {
-            table = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\Pikeman.png");
-
-            Graphics graphics = CreateGraphics();
-            var pen = new Pen(Color.Black);
-            var map = new Map(new Point(160, 20), 40);
-            var gm = new GameManager();
-            gm.GeneratePlayerCreatures();
-            
+        {                    
             DrawMap(graphics, pen, map);
 
             foreach (var stack in gm.playerStacks)
-                DrawCreature(graphics, map.Field[stack.Key.Item1, stack.Key.Item2]);
+                DrawCreature(graphics, map.Field[stack.Key.Item1, stack.Key.Item2], stack.Value.Creature);
 
+            button1.Enabled = false;
             button5.Enabled = true;
         }
 
-        private void DrawCreature(Graphics graphics, Hexagons hexagon)
+        private void DrawCreature(Graphics graphics, Hexagon hexagon, Creature creature)
         {
-            graphics.DrawImage(table, hexagon.Center.X - 20, hexagon.Center.Y - 59, new Rectangle(new Point(0, 0), new Size(52, 96)), GraphicsUnit.Pixel);
+            graphics.DrawImage(creature.Bitmap, hexagon.Center.X - 20, hexagon.Center.Y - 59, new Rectangle(new Point(0, 0), new Size(52, 96)), GraphicsUnit.Pixel);
         }
 
         public static void DrawMap(Graphics graphics, Pen pen, Map map)
         {
             for (int y = 0; y < map.CountY; y++)
                 for (int x = 0; x < map.CountX; x++)
-                    graphics.DrawLines(pen, map.Field[x, y].GetHexCorner());
+                {
+                    var hexagon = map.Field[x, y].GetHexCorner();
+                    graphics.DrawLines(pen, hexagon);
+                    if (map.Field[x, y].activ)
+                        graphics.FillPolygon(brush, hexagon);
+                }
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            var pictureBox = new PictureBox();
-
+            var coord = gm.playerStacks.Keys.First();
+            var a = gm.GetHexagonsForMove(coord.Item1, coord.Item2, gm.playerStacks.Values.First().Creature.Move);
+            foreach (var b in a)
+                map.Field[b.Item1, b.Item2].activ = true;
+            DrawMap(graphics, pen, map);
         }
 
         //private void updateBox()

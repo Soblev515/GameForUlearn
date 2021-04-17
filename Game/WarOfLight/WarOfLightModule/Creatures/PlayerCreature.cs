@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -19,6 +20,7 @@ namespace WarOfLightModule
             hp = 3;
             initiative = 8;
             move = 4;
+            bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\Pikeman.png");
         }
     }
 
@@ -34,6 +36,7 @@ namespace WarOfLightModule
             hp = 7;
             initiative = 8;
             move = 4;
+            bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\Pikeman.png");
         }
     }
 }

@@ -10,7 +10,7 @@ namespace WarOfLightModule
     {
         public readonly int NumCreatures;
 
-        private Creature Creature;
+        public Creature Creature;
 
         public CreatureStack(Creature creture, int numCreature)
         {

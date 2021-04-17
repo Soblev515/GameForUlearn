@@ -5,19 +5,20 @@ using System.Text;
 
 namespace WarOfLightModule
 {
-    public class Hexagons
+    public class Hexagon
     {
         public readonly Point Center;
         public readonly int Size;
         private readonly Point[] hexCorner;
+        public bool activ;
 
-        public Hexagons()
+        public Hexagon()
         {
             Center = new Point();
             Size = new int();
         }
 
-        public Hexagons(Point center, int size)
+        public Hexagon(Point center, int size)
         {
             Center = center;
             Size = size;

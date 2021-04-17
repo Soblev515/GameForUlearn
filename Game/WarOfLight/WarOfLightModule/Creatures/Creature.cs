@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -19,6 +20,7 @@ namespace WarOfLightModule
         protected int move;
         protected int basicShots = 0;
         protected int basicMana = 0;
+        protected Bitmap bitmap;
 
         public int Cost
         {
@@ -113,6 +115,16 @@ namespace WarOfLightModule
             get
             {
                 return basicMana;
+            }
+        }
+
+        public Bitmap Bitmap
+        {
+            get
+            {
+                if(bitmap == default)
+                    new ArgumentException();
+                return bitmap;
             }
         }
     }
