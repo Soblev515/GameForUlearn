@@ -47,12 +47,6 @@ namespace WarOfLightModule
         public List<(int, int)> GetHexagonsForMove(int x, int y, int move)
         {
             var list = new List<(int, int)>();
-            //for (var dy = -move; dy <= move; dy++)
-            //    for (var dx = -move; dx <= move; dx++)
-            //        if ( Math.Abs(dy) +Math.Abs(dx) >= move + 2
-            //            || x + dx < 0 || y + dy < 0 
-            //            || playerStacks.ContainsKey(((x + dx), (y + dy)))) continue;
-            //        else list.Add(((x + dx), (y + dy)));
 
             var n = 0;
             for(int row = y-move; row <= y; row++)

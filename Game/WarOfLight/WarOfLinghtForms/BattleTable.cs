@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -25,6 +26,13 @@ namespace WarOfLightModule
             map = new Map(new Point(160, 20), 40);
             gm = new GameManager(map);
             graphics = CreateGraphics();
+            var thread = new Thread(() => UpdateGame());
+            thread.Start();
+        }
+
+        private void UpdateGame()
+        {
+            if()
         }
 
         private void Button1_Click(object sender, EventArgs e)
