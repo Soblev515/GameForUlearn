@@ -8,34 +8,59 @@ namespace WarOfLightModule
 {
     public class GameManager
     {
-        public readonly Dictionary<(int, int), CreatureStack> playerStacks = new Dictionary<(int, int), CreatureStack>();
-        public readonly Dictionary<(int, int), CreatureStack> enemyStacks;
+        public readonly List<CreatureStack> playerStacks = new List<CreatureStack>();
+        public readonly List<CreatureStack> enemyStacks = new List<CreatureStack>();
         private Dictionary<bool, List<(int, int)>> offsetCoords = new Dictionary<bool, List<(int, int)>>();
         private Map map;
+        private List<CreatureStack> ATM = new List<CreatureStack>(); 
 
         public GameManager(Map Map)
         {
             GeneratePlayerCreatures();
             GenerateEnemyCreatures();
             SetDictOffcetCoord();
+            SetATM();
             map = Map;
+            
         }
         private void GeneratePlayerCreatures()
         {
-            playerStacks.Add((5, 6), new CreatureStack(new Militiaman(), 20));
-            playerStacks.Add((0, 3), new CreatureStack(new Militiaman(), 10));
+            playerStacks.Add(new CreatureStack(new Militiaman(), 20, (4, 5)));
+            playerStacks.Add(new CreatureStack(new Militiaman(), 10, (0, 3)));
         }
 
         private void GenerateEnemyCreatures()
         {
-            playerStacks.Add((14, 1), new CreatureStack(new Spearman(), 20));
-            playerStacks.Add((14, 3), new CreatureStack(new Spearman(), 10));
+            enemyStacks.Add(new CreatureStack(new Spearman(), 20, (14, 1)));
+            enemyStacks.Add(new CreatureStack(new Spearman(), 10, (14, 3)));
         }
 
-        public void MoveCreatue((int, int) StartCord, (int, int) EndCord)
+        private void SetATM()
         {
-            playerStacks.Add(EndCord, playerStacks[StartCord]);
-            playerStacks.Remove(StartCord);
+            ATM.AddRange(playerStacks);
+            ATM.AddRange(enemyStacks);
+
+            ATM.OrderBy(x => x.Creature.Initiative);
+        } 
+
+        public CreatureStack NextCreatureStep()
+        {
+            var a = ATM.First();
+            ATM.Add(a);
+            return a;
+        }
+
+        public void MoveCreatue(ref CreatureStack creatureStack, (int, int) EndCord, bool isPlayerCreture)
+        {
+            if (isPlayerCreture)
+                creatureStack.Coord = EndCord;
+            else
+                creatureStack.Coord = EndCord;
+        }
+
+        public void DeleteCreatue(CreatureStack creatureStack)
+        {
+            ATM.Remove(creatureStack);
         }
 
         private void SetDictOffcetCoord()
@@ -44,23 +69,45 @@ namespace WarOfLightModule
             offsetCoords.Add(false, new List<(int, int)> { (1, 0), (0, -1), (-1, -1), (-1, 0), (0, 1), (-1, 1) });
         }
 
-        public List<(int, int)> GetHexagonsForMove(int x, int y, int move)
+        public List<(int, int)> GetHexagonsForMove(CreatureStack creatureStack, int move)
         {
             var list = new List<(int, int)>();
-
-            var n = 0;
-            for(int row = y-move; row <= y; row++)
+            var (x, y) = (creatureStack.Coord.Item1, creatureStack.Coord.Item2);
+            var p = 0;
+            for (var row = y - move; row <= y; row = row+2)
             {
-                for (int col = x-move/2 - n/2 ; col <= x+move / 2 + (1 + n)/2; col++)
+                
+                for (var col = x -p- move / 2; col <= p + x + move / 2; col++)
                 {
-                    if (row-x + col - y > move || 
-                        row < 0 || col < 0) continue;
-                    if(!playerStacks.ContainsKey(((col), (row))) && col < map.CountX && row < map.CountY)
-                        list.Add((col,row));
-                    if (!playerStacks.ContainsKey(((col), (y - row + move + 2))) && y - row + move + 2 < map.CountY)
-                        list.Add((col,y - row + move + 2));
+                    if (creatureStack.Coord == (col, row))
+                        continue;
+                    if (col < map.CountX && row < map.CountY
+                        && col >= 0 && row >= 0)
+                        list.Add((col, row));
+                    if (2 * y - row < map.CountY
+                        && col >= 0 && 2 * y - row >= 0)
+                        list.Add((col, 2 * y - row));
                 }
-                n +=1;
+                p = p+1;
+            }
+
+            p = 0;
+            var n = y % 2 == 0 ? 0 : 1;
+            for (var row = y - move + 1; row <= y; row = row + 2)
+            {
+
+                for (var col = x - p - n - move / 2; col <= p + x +(1-n) + move / 2; col++)
+                {
+                    if (creatureStack.Coord == (col, row))
+                        continue;
+                    if (col < map.CountX && row < map.CountY
+                        && col >= 0 && row >= 0)
+                        list.Add((col, row));
+                    if (col < map.CountX && 2 * y - row < map.CountY
+                        && col >= 0 && 2 * y - row >= 0)
+                        list.Add((col, 2 * y - row));
+                }
+                p = p + 1;
             }
             return list;
         }
