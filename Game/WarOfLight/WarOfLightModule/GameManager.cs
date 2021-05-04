@@ -23,6 +23,32 @@ namespace WarOfLightModule
             map = Map;
             
         }
+
+        public CreatureStack NextCreatureStep()
+        {
+            var a = ATM.First();
+            ATM.RemoveAt(0);
+            ATM.Add(a);
+            return a;
+        }
+
+        public void MoveCreatue(ref CreatureStack creatureStack, (int, int) EndCord, bool isPlayerCreture)
+        {
+            if (isPlayerCreture)
+                creatureStack.Coord = EndCord;
+            else
+                creatureStack.Coord = EndCord;
+        }
+
+        public void DeleteCreatue(CreatureStack creatureStack)
+        {
+            ATM.Remove(creatureStack);
+        }
+
+        public List<(int,int)> GetCoordCreatores(List<CreatureStack> creatureStacks)
+        {
+            return creatureStacks.Select(x => x.Coord).ToList();
+        }
         private void GeneratePlayerCreatures()
         {
             playerStacks.Add(new CreatureStack(new Militiaman(), 20, (4, 5)));
@@ -41,26 +67,6 @@ namespace WarOfLightModule
             ATM.AddRange(enemyStacks);
 
             ATM.OrderBy(x => x.Creature.Initiative);
-        } 
-
-        public CreatureStack NextCreatureStep()
-        {
-            var a = ATM.First();
-            ATM.Add(a);
-            return a;
-        }
-
-        public void MoveCreatue(ref CreatureStack creatureStack, (int, int) EndCord, bool isPlayerCreture)
-        {
-            if (isPlayerCreture)
-                creatureStack.Coord = EndCord;
-            else
-                creatureStack.Coord = EndCord;
-        }
-
-        public void DeleteCreatue(CreatureStack creatureStack)
-        {
-            ATM.Remove(creatureStack);
         }
 
         private void SetDictOffcetCoord()
@@ -74,7 +80,7 @@ namespace WarOfLightModule
             var list = new List<(int, int)>();
             var (x, y) = (creatureStack.Coord.Item1, creatureStack.Coord.Item2);
             var p = 0;
-            for (var row = y - move; row <= y; row = row+2)
+            for (var row = y - move; row <= y; row += 2)
             {
                 
                 for (var col = x -p- move / 2; col <= p + x + move / 2; col++)
@@ -84,16 +90,16 @@ namespace WarOfLightModule
                     if (col < map.CountX && row < map.CountY
                         && col >= 0 && row >= 0)
                         list.Add((col, row));
-                    if (2 * y - row < map.CountY
+                    if (col < map.CountX && 2 * y - row < map.CountY
                         && col >= 0 && 2 * y - row >= 0)
                         list.Add((col, 2 * y - row));
                 }
-                p = p+1;
+                p++;
             }
 
             p = 0;
             var n = y % 2 == 0 ? 0 : 1;
-            for (var row = y - move + 1; row <= y; row = row + 2)
+            for (var row = y - move + 1; row <= y; row += 2)
             {
 
                 for (var col = x - p - n - move / 2; col <= p + x +(1-n) + move / 2; col++)
@@ -107,8 +113,9 @@ namespace WarOfLightModule
                         && col >= 0 && 2 * y - row >= 0)
                         list.Add((col, 2 * y - row));
                 }
-                p = p + 1;
+                p++;
             }
+
             return list;
         }
     }

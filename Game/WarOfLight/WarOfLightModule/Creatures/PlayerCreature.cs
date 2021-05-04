@@ -36,7 +36,7 @@ namespace WarOfLightModule
             hp = 7;
             initiative = 8;
             move = 4;
-            bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\Pikeman.png");
+            bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\PikemanEnemy.png");
         }
     }
 }

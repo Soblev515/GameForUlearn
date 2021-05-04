@@ -37,7 +37,7 @@ namespace WarOfLightModule
             ////var thread = new Thread(() => UpdateGame());
             //thread.Start();
             activCreture = gm.NextCreatureStep();
-            Init();
+            Init();            
         }
 
         private void Init()
@@ -58,7 +58,7 @@ namespace WarOfLightModule
                     g.DrawImage(gm.playerStacks.FirstOrDefault().Creature.Bitmap, map.Field[x,y].Center.X - 20, map.Field[x, y].Center.Y - 59, new Rectangle(new Point(0, 0), new Size(52, 96)), GraphicsUnit.Pixel);
                     butt.BackgroundImage = part;
 
-                    butt.ForeColor = Color.Gray;
+                    butt.BackColor = Color.Gray;
                     this.Controls.Add(butt);
                     butt.Enabled = false;
 
@@ -67,15 +67,30 @@ namespace WarOfLightModule
                 }
         }
 
+        private void Step()
+        {
+            var size = map.Field[0, 0].Size;
+            for (int y = 0; y < map.CountY; y++)
+                for (int x = 0; x < map.CountX; x++)
+                {
+                    mapButtons[x, y].Enabled = false;
+                    mapButtons[x, y].BackColor = Color.Gray;
+                }
+
+            foreach (var stack in gm.playerStacks)
+                DrawCreature(stack);
+            foreach (var stack in gm.enemyStacks)
+                DrawCreature(stack);
+            SetMoveHex();
+        }
+
         private void Button1_Click(object sender, EventArgs e)
         {
             foreach (var stack in gm.playerStacks)
-                DrawCreature(map.Field[stack.Coord.Item1, stack.Coord.Item2], stack.Creature);
-            
-            //button1.Enabled = false;
+                DrawCreature(stack);
+            foreach (var stack in gm.enemyStacks)
+                DrawCreature(stack);
             button5.Enabled = true;
-
-            gm.DeleteCreatue(gm.playerStacks.FirstOrDefault());
         }
 
         public void OnFigurePress(object sender, EventArgs e)
@@ -85,29 +100,36 @@ namespace WarOfLightModule
             var x = (pressedButton.Left - 160) / Hexagon.GetWidthAndHeigth(sizeHex).Item1;
             if (y % 2 == 1)
                 x++;
+
+            mapButtons[activCreture.Coord.Item1, activCreture.Coord.Item2].Image = null;
             activCreture.Coord = (x, y);
+            activCreture = gm.NextCreatureStep();
             pressedButton.BackColor = Color.Red;
+            Step();
         }
 
-        private void DrawCreature(Hexagon hexagon, Creature creature)
+        private void DrawCreature(CreatureStack creature)
         {
-            graphics.DrawImage(creature.Bitmap, hexagon.Center.X - 20, hexagon.Center.Y - 59, new Rectangle(new Point(0, 0), new Size(52, 96)), GraphicsUnit.Pixel);
-
+            //graphics.DrawImage(creature.Bitmap, hexagon.Center.X - 20, hexagon.Center.Y - 59, new Rectangle(new Point(0, 0), new Size(52, 96)), GraphicsUnit.Pixel);
+            mapButtons[creature.Coord.Item1, creature.Coord.Item2].Image = creature.Creature.Bitmap;
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            var a = gm.GetHexagonsForMove(gm.playerStacks.FirstOrDefault(), gm.playerStacks.First().Creature.Move);
+            SetMoveHex();
+        }
+
+        private void SetMoveHex()
+        {
+            var a = gm.GetHexagonsForMove(activCreture, activCreture.Creature.Move);
             foreach (var b in a)
             {
-                map.Field[b.Item1, b.Item2].activ = true;
+                if (gm.GetCoordCreatores(gm.playerStacks).Contains(b))
+                    continue;
                 mapButtons[b.Item1, b.Item2].Enabled = true;
-                mapButtons[b.Item1, b.Item2].BackColor = Color.Green;
+                mapButtons[b.Item1, b.Item2].BackColor = gm.GetCoordCreatores(gm.enemyStacks).Contains(b) ?
+                                                                    Color.OrangeRed : Color.Green;
             }
-            //DrawMap(graphics, pen, map);
-            DrawCreature(map.Field[gm.playerStacks.FirstOrDefault().Coord.Item1, gm.playerStacks.FirstOrDefault().Coord.Item2], gm.playerStacks.First().Creature);
-            //mapButtons[coord.Item1, coord.Item2].Image = new Bitmap(gm.playerStacks.Values.First().Creature.Bitmap);
-            //mapButtons[coord.Item1, coord.Item2].BackgroundImage = new Bitmap(gm.playerStacks.Values.First().Creature.Bitmap);
         }
 
         //private void updateBox()
