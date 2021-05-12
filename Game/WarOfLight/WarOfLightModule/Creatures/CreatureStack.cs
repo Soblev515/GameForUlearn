@@ -9,7 +9,7 @@ namespace WarOfLightModule
 {
     public class CreatureStack
     {
-        public readonly int NumCreatures;
+        public int NumCreatures { get; private set; }
         public (int, int) Coord;
         public Creature Creature;
 
@@ -32,16 +32,22 @@ namespace WarOfLightModule
                 Coord = coord;
         }
 
-        public int TotalDamage(CreatureStack Attacked)
+        public void Attack(CreatureStack Attacked)
+            => Attacked.NumCreatures -= TotalDamage(Attacked);
+
+        public void Shot(CreatureStack Attacked)
         {
-            return (int)(NumCreatures * BaseDamage() * AttackDefenseModifier(Creature.Attack, Attacked.Creature.Defense));
+            Attacked.NumCreatures -= TotalDamage(Attacked);
+            Creature.Shot();
         }
+
+        private int TotalDamage(CreatureStack Attacked)
+            => (int)(NumCreatures * BaseDamage() * AttackDefenseModifier(Creature.Attack, Attacked.Creature.Defense));
 
         private int BaseDamage()
         {
             var random = new Random();
-            var a = new Militiaman();
-            
+                        
             var baseDamage = Creature.Damage.Item1 + random.Next(0, 1) * (Creature.Damage.Item2 - Creature.Damage.Item1);
             return baseDamage;
         }

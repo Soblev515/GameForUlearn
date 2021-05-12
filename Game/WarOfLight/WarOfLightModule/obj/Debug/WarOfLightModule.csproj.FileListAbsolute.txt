@@ -6,4 +6,3 @@ D:\Project\GameForUlearn\Game\WarOfLight\WarOfLightModule\obj\Debug\WarOfLightMo
 D:\Project\GameForUlearn\Game\WarOfLight\WarOfLightModule\bin\Debug\WarOfLightModule.dll.config
 D:\Project\GameForUlearn\Game\WarOfLight\WarOfLightModule\bin\Debug\WarOfLightModule.dll
 D:\Project\GameForUlearn\Game\WarOfLight\WarOfLightModule\obj\Debug\WarOfLightModule.dll
-D:\Project\GameForUlearn\Game\WarOfLight\WarOfLightModule\obj\Debug\WarOfLightModule.csprojAssemblyReference.cache

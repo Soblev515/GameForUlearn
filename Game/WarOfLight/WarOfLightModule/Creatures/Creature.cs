@@ -110,6 +110,11 @@ namespace WarOfLightModule
             }
         }
 
+        public void Shot()
+        {
+            basicShots--;
+        }
+
         public int BasicMana
         {
             get

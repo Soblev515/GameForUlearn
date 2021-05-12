@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace WarOfLightModule
 {
-    public class Militiaman : Creature
+    public class Recruit : Creature
     {
-        public Militiaman()
+        public Recruit()
         {
             cost = 20;
             basicGrowth = 22;
@@ -19,8 +19,9 @@ namespace WarOfLightModule
             damage = (1, 1);
             hp = 3;
             initiative = 8;
-            move = 4;
-            bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\Pikeman.png");
+            move = 5;
+            basicShots = 2;
+            bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\PlayerCreature\\Recruit.png");
         }
     }
 
@@ -36,6 +37,55 @@ namespace WarOfLightModule
             hp = 7;
             initiative = 8;
             move = 4;
+            bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\PikemanEnemy.png");
+        }
+    }
+
+    public class Archer : Creature
+    {
+        public Archer()
+        {
+            cost = 50;
+            basicGrowth = 12;
+            attack = 4;
+            defense = 3;
+            damage = (2, 4);
+            hp = 7;
+            initiative = 9;
+            move = 4;
+            basicShots = 10;
+            bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\PlayerCreature\\Archer.png");
+        }
+    }
+
+    public class Swordsman : Creature
+    {
+        public Swordsman()
+        {
+            cost = 85;
+            basicGrowth = 10;
+            attack = 4;
+            defense = 8;
+            damage = (2, 4);
+            hp = 16;
+            initiative = 8;
+            move = 4;
+            bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\PikemanEnemy.png");
+        }
+    }
+
+    public class Horseman : Creature
+    {
+        public Horseman()
+        {
+            cost = 1300;
+            basicGrowth = 2;
+            attack = 23;
+            defense = 21;
+            damage = (20, 30);
+            hp = 90;
+            initiative = 11;
+            move = 7;
             bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\PikemanEnemy.png");
         }
     }

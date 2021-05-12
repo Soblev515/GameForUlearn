@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,9 +11,9 @@ namespace WarOfLightModule
     {
         public readonly List<CreatureStack> playerStacks = new List<CreatureStack>();
         public readonly List<CreatureStack> enemyStacks = new List<CreatureStack>();
-        private Dictionary<bool, List<(int, int)>> offsetCoords = new Dictionary<bool, List<(int, int)>>();
-        private Map map;
-        private List<CreatureStack> ATM = new List<CreatureStack>(); 
+        private readonly Dictionary<bool, List<(int, int)>> offsetCoords = new Dictionary<bool, List<(int, int)>>();
+        private readonly Map map;
+        private readonly List<CreatureStack> ATM = new List<CreatureStack>(); 
 
         public GameManager(Map Map)
         {
@@ -40,19 +41,119 @@ namespace WarOfLightModule
                 creatureStack.Coord = EndCord;
         }
 
+        public List<(int, int)> GetHexagonsForMove(CreatureStack creatureStack, int move)
+        {
+            var list = new List<(int, int)>();
+            var (x, y) = (creatureStack.Coord.Item1, creatureStack.Coord.Item2);
+
+            if (move % 2 == 0)
+                GetHexForEvenMove(creatureStack, move, list, x, y);
+            else
+                GetHexForOddMove(creatureStack, move, list, x, y);
+
+            return list;
+        }
+
+        private void GetHexForEvenMove(CreatureStack creatureStack, int move, List<(int, int)> list, int x, int y)
+        {
+            var p = 0;
+            for (var row = y - move; row <= y; row += 2)
+            {
+
+                for (var col = x - p - move / 2; col <= p + x + move / 2; col++)
+                {
+                    if (creatureStack.Coord == (col, row))
+                        continue;
+                    if (col < map.CountX && row < map.CountY
+                        && col >= 0 && row >= 0)
+                        list.Add((col, row));
+                    if (col < map.CountX && 2 * y - row < map.CountY
+                        && col >= 0 && 2 * y - row >= 0)
+                        list.Add((col, 2 * y - row));
+                }
+                p++;
+            }
+
+            p = 0;
+            var n = y % 2 == 0 ? 0 : 1;
+            for (var row = y - move + 1; row <= y; row += 2)
+            {
+
+                for (var col = x - p - n - move / 2; col <= p + x + (1 - n) + move / 2; col++)
+                {
+                    if (creatureStack.Coord == (col, row))
+                        continue;
+                    if (col < map.CountX && row < map.CountY
+                        && col >= 0 && row >= 0)
+                        list.Add((col, row));
+                    if (col < map.CountX && 2 * y - row < map.CountY
+                        && col >= 0 && 2 * y - row >= 0)
+                        list.Add((col, 2 * y - row));
+                }
+                p++;
+            }
+        }
+
+        private void GetHexForOddMove(CreatureStack creatureStack, int move, List<(int, int)> list, int x, int y)
+        {
+            var p = 0;
+            for (var row = y - move + 1; row <= y; row += 2)
+            {
+
+                for (var col = x - p - 1 - move / 2; col <= p + x + 1 + move / 2; col++)
+                {
+                    if (creatureStack.Coord == (col, row))
+                        continue;
+                    if (col < map.CountX && row < map.CountY
+                        && col >= 0 && row >= 0)
+                        list.Add((col, row));
+                    if (col < map.CountX && 2 * y - row < map.CountY
+                        && col >= 0 && 2 * y - row >= 0)
+                        list.Add((col, 2 * y - row));
+                }
+                p++;
+            }
+
+            p = 0;
+            var n = y % 2 == 0 ? 0 : 1;
+            for (var row = y - move; row <= y; row += 2)
+            {
+
+                for (var col = x - p - n - move / 2; col <= p + x + (1 - n) + move / 2; col++)
+                {
+                    if (creatureStack.Coord == (col, row))
+                        continue;
+                    if (col < map.CountX && row < map.CountY
+                        && col >= 0 && row >= 0)
+                        list.Add((col, row));
+                    if (col < map.CountX && 2 * y - row < map.CountY
+                        && col >= 0 && 2 * y - row >= 0)
+                        list.Add((col, 2 * y - row));
+                }
+                p++;
+            }
+        }
+
         public void DeleteCreatue(CreatureStack creatureStack)
         {
             ATM.Remove(creatureStack);
+            if (enemyStacks.Contains(creatureStack))
+                enemyStacks.Remove(creatureStack);
+            else if (playerStacks.Contains(creatureStack))
+                playerStacks.Remove(creatureStack);
         }
+        
 
         public List<(int,int)> GetCoordCreatores(List<CreatureStack> creatureStacks)
-        {
-            return creatureStacks.Select(x => x.Coord).ToList();
-        }
+            => creatureStacks.Select(x => x.Coord).ToList();
+
+        public CreatureStack GetCreatoreForCoord((int,int) coord)
+            => ATM.Select(x => x).Where(stack=> stack.Coord == coord).FirstOrDefault();
+
         private void GeneratePlayerCreatures()
         {
-            playerStacks.Add(new CreatureStack(new Militiaman(), 20, (4, 5)));
-            playerStacks.Add(new CreatureStack(new Militiaman(), 10, (0, 3)));
+            playerStacks.Add(new CreatureStack(new Recruit(), 20, (4, 5)));
+            playerStacks.Add(new CreatureStack(new Archer(), 10, (0, 3)));
         }
 
         private void GenerateEnemyCreatures()
@@ -73,50 +174,6 @@ namespace WarOfLightModule
         {
             offsetCoords.Add(true, new List<(int, int)> { (1, 0), (1, -1), (0, -1), (-1, 0), (0, 1), (1, 1) });
             offsetCoords.Add(false, new List<(int, int)> { (1, 0), (0, -1), (-1, -1), (-1, 0), (0, 1), (-1, 1) });
-        }
-
-        public List<(int, int)> GetHexagonsForMove(CreatureStack creatureStack, int move)
-        {
-            var list = new List<(int, int)>();
-            var (x, y) = (creatureStack.Coord.Item1, creatureStack.Coord.Item2);
-            var p = 0;
-            for (var row = y - move; row <= y; row += 2)
-            {
-                
-                for (var col = x -p- move / 2; col <= p + x + move / 2; col++)
-                {
-                    if (creatureStack.Coord == (col, row))
-                        continue;
-                    if (col < map.CountX && row < map.CountY
-                        && col >= 0 && row >= 0)
-                        list.Add((col, row));
-                    if (col < map.CountX && 2 * y - row < map.CountY
-                        && col >= 0 && 2 * y - row >= 0)
-                        list.Add((col, 2 * y - row));
-                }
-                p++;
-            }
-
-            p = 0;
-            var n = y % 2 == 0 ? 0 : 1;
-            for (var row = y - move + 1; row <= y; row += 2)
-            {
-
-                for (var col = x - p - n - move / 2; col <= p + x +(1-n) + move / 2; col++)
-                {
-                    if (creatureStack.Coord == (col, row))
-                        continue;
-                    if (col < map.CountX && row < map.CountY
-                        && col >= 0 && row >= 0)
-                        list.Add((col, row));
-                    if (col < map.CountX && 2 * y - row < map.CountY
-                        && col >= 0 && 2 * y - row >= 0)
-                        list.Add((col, 2 * y - row));
-                }
-                p++;
-            }
-
-            return list;
         }
     }
 }
