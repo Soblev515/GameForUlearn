@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace WarOfLightModule
 {
@@ -13,32 +15,71 @@ namespace WarOfLightModule
         public readonly List<CreatureStack> enemyStacks = new List<CreatureStack>();
         private readonly Dictionary<bool, List<(int, int)>> offsetCoords = new Dictionary<bool, List<(int, int)>>();
         private readonly Map map;
-        private readonly List<CreatureStack> ATM = new List<CreatureStack>(); 
+        private readonly List<CreatureStack> ATM = new List<CreatureStack>();
+        private readonly Levels levels = new Levels();
+        private readonly EnemyLogic enemyLogic = new EnemyLogic();
 
-        public GameManager(Map Map)
+        public CreatureStack ActivCreature { get; private set; }
+
+        public GameManager(Map Map, int numLevel)
         {
-            GeneratePlayerCreatures();
-            GenerateEnemyCreatures();
+            switch (numLevel)
+            {
+                case 1:
+                    levels.FirstLevel(this);
+                    break;
+                case 2:
+                    levels.SecondLevel(this);
+                    break;
+                default:
+                    levels.FirstLevel(this);
+                    break;
+
+            }
+
             SetDictOffcetCoord();
             SetATM();
-            map = Map;
-            
+            map = Map;            
         }
 
-        public CreatureStack NextCreatureStep()
+
+        public void NextCreatureStep()
         {
-            var a = ATM.First();
+            ActivCreature = ATM.First();
             ATM.RemoveAt(0);
-            ATM.Add(a);
-            return a;
+            ATM.Add(ActivCreature);
         }
 
-        public void MoveCreatue(ref CreatureStack creatureStack, (int, int) EndCord, bool isPlayerCreture)
+        public void MoveCreature(int x, int y)
         {
-            if (isPlayerCreture)
-                creatureStack.Coord = EndCord;
-            else
-                creatureStack.Coord = EndCord;
+            ActivCreature.Coord = (x, y);
+        }
+
+        public void RangeAttack(int x, int y)
+        {
+            var attakedCreature = GetCreatureForCoord((x, y));
+            ActivCreature.Shot(attakedCreature);
+        }
+
+        public void MiddleAttack(int x, int y)
+        {
+            var attakedCreature = GetCreatureForCoord((x, y));
+            ActivCreature.Attack(attakedCreature);
+        }
+
+        public ((int, int), (int, int)) MoveEnemy()
+        {
+            return enemyLogic.StepEnemyStack(this);
+        } 
+
+        public bool IsKillCreature(CreatureStack Creature)
+        {
+            if (Creature.NumCreatures <= 0)
+            {
+                DeleteCreatue(Creature);
+                return true;
+            }
+            return false;
         }
 
         public List<(int, int)> GetHexagonsForMove(CreatureStack creatureStack, int move)
@@ -147,20 +188,8 @@ namespace WarOfLightModule
         public List<(int,int)> GetCoordCreatores(List<CreatureStack> creatureStacks)
             => creatureStacks.Select(x => x.Coord).ToList();
 
-        public CreatureStack GetCreatoreForCoord((int,int) coord)
+        public CreatureStack GetCreatureForCoord((int,int) coord)
             => ATM.Select(x => x).Where(stack=> stack.Coord == coord).FirstOrDefault();
-
-        private void GeneratePlayerCreatures()
-        {
-            playerStacks.Add(new CreatureStack(new Recruit(), 20, (4, 5)));
-            playerStacks.Add(new CreatureStack(new Archer(), 10, (0, 3)));
-        }
-
-        private void GenerateEnemyCreatures()
-        {
-            enemyStacks.Add(new CreatureStack(new Spearman(), 20, (14, 1)));
-            enemyStacks.Add(new CreatureStack(new Spearman(), 10, (14, 3)));
-        }
 
         private void SetATM()
         {

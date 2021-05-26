@@ -18,7 +18,7 @@ namespace WarOfLinghtForms
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BattleTable());
+            Application.Run(new Menu());
         }
     }
 }

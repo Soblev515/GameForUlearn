@@ -13,3 +13,4 @@ D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\obj\Debug\WarOfLinghtF
 D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\obj\Debug\WarOfLinghtForms.pdb
 D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\obj\Debug\WarOfLightModule.BattleTable.resources
 D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\obj\Debug\WarOfLinghtForms.Menu.resources
+D:\Project\GameForUlearn\Game\WarOfLight\WarOfLinghtForms\obj\Debug\WarOfLinghtForms.WinOrLossForm.resources

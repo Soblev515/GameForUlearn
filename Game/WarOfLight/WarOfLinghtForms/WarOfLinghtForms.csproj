@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WinOrLossForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinOrLossForm.Designer.cs">
+      <DependentUpon>WinOrLossForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Menu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,6 +65,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="BattleTable.resx">
       <DependentUpon>BattleTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinOrLossForm.resx">
+      <DependentUpon>WinOrLossForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Menu.resx">
       <DependentUpon>Menu.cs</DependentUpon>

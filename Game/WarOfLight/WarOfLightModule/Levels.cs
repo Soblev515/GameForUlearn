@@ -7,10 +7,9 @@ using WarOfLightModule;
 
 namespace WarOfLightModule
 {
-    class Levels
+    public class Levels
     {
-        private readonly GameManager gm;
-        private void FirstLevel()
+        public void FirstLevel(GameManager gm)
         {
             gm.playerStacks.Add(new CreatureStack(new Recruit(), 20, (4, 5)));
             gm.playerStacks.Add(new CreatureStack(new Recruit(), 10, (0, 3)));
@@ -18,7 +17,7 @@ namespace WarOfLightModule
             gm.enemyStacks.Add(new CreatureStack(new Spearman(), 10, (14, 3)));
         }
 
-        private void SecondLevel()
+        public void SecondLevel(GameManager gm)
         {
             gm.playerStacks.Add(new CreatureStack(new Recruit(), 20, (4, 5)));
             gm.playerStacks.Add(new CreatureStack(new Recruit(), 10, (0, 3)));

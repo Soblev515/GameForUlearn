@@ -7,20 +7,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WarOfLightModule;
 
 namespace WarOfLinghtForms
 {
     public partial class Menu : Form
     {
+        private readonly Levels levels = new Levels();
+        private readonly Map map;
+        private readonly GameManager gm;
+
         public Menu()
         {
             InitializeComponent();
+            button1.Text = "Level 1";
         }
 
         private void Menu_Load(object sender, EventArgs e)
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var Level1 = new BattleTable(1);
+            Level1.Show();
+            this.Hide();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
 
         //private void button1_Click(object sender, EventArgs e)
         //{

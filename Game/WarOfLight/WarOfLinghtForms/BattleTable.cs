@@ -21,19 +21,19 @@ namespace WarOfLightModule
         private readonly GameManager gm;
         private readonly Button[,] mapButtons;
         private readonly int sizeHex = 40;
-        private CreatureStack activCreature;
+        private List<Button> buttonsForAttack = new List<Button>(); 
 
-        public BattleTable()
+        public BattleTable(int level)
         {
             InitializeComponent();
             this.ClientSize = new Size(1800,900);
             map = new Map(new Point(160, 20), sizeHex);
-            gm = new GameManager(map);
+            gm = new GameManager(map, 1);
             mapButtons = new PolygonButton[map.CountX, map.CountY];
             this.BackColor = Color.LightGreen;
-            activCreature = gm.NextCreatureStep();
+            gm.NextCreatureStep();
             Init();
-            SetMoveHex(activCreature, activCreature.Creature.Move);
+            SetMoveHex(gm.ActivCreature, gm.ActivCreature.Creature.Move);
         }
 
         public void OnFigurePress(object sender, EventArgs e)
@@ -44,64 +44,66 @@ namespace WarOfLightModule
             if (y % 2 == 1)
                 x++;
 
-            if (gm.GetCreatoreForCoord((x, y)) == activCreature)
+            if (gm.GetCreatureForCoord((x, y)) == gm.ActivCreature)
                 return;
 
-            if(pressedButton.BackColor == Color.DarkGreen) MoveCreature(y, x);
-            else if(pressedButton.BackColor == Color.Red) SetTargetForAttack(y, x);
-            else if (pressedButton.BackColor == Color.IndianRed) MiddleAttack(y, x);
-            else if (pressedButton.BackColor == Color.OrangeRed) RangeAttack(y, x);
+            if (Shot.Enabled) 
+                RangeAttack(x, y);
+            else if (buttonsForAttack.Contains(sender))
+            {
+                MiddleAttack(x, y);
+                buttonsForAttack.RemoveRange(0, buttonsForAttack.Count-1);
+            }
+            else if (gm.enemyStacks.Contains(gm.GetCreatureForCoord((x, y))))
+                SetTargetForAttack(x, y);
+            else 
+                MoveCreature(x, y);
         }
 
-        private void RangeAttack(int y, int x)
+        private void MoveCreature(int x, int y)
         {
-            mapButtons[activCreature.Coord.Item1, activCreature.Coord.Item2].Image = null;
-            var attakedCreature = gm.GetCreatoreForCoord((x, y));
-            activCreature.Shot(attakedCreature);
-            IsKillCreature(y, x, attakedCreature);
+            mapButtons[gm.ActivCreature.Coord.Item1, gm.ActivCreature.Coord.Item2].Image = null;
+            gm.MoveCreature(x, y);
             Step();
         }
 
-        private void MiddleAttack(int y, int x)
+        private void RangeAttack(int x, int y)
         {
-            mapButtons[activCreature.Coord.Item1, activCreature.Coord.Item2].Image = null;
+            mapButtons[gm.ActivCreature.Coord.Item1, gm.ActivCreature.Coord.Item2].Image = null;
+            gm.RangeAttack(x, y);
+            if(gm.IsKillCreature(gm.GetCreatureForCoord((x, y))))
+                mapButtons[x, y].Image = null;
+            Step();
+        }
+
+        private void MiddleAttack(int x, int y)
+        {
+            mapButtons[gm.ActivCreature.Coord.Item1, gm.ActivCreature.Coord.Item2].Image = null;
             var a = gm.GetHexagonsForMove(new CreatureStack(null, 0, (x, y)), 1);
             var (x0, y0) = (0, 0);
+
             foreach (var coord in a)
                 if (mapButtons[coord.Item1, coord.Item2].BackColor == Color.Red)
                     (x0, y0) = coord;
-            activCreature.Coord = (x, y);
+            gm.ActivCreature.Coord = (x, y);
 
-            var attakedCreature = gm.GetCreatoreForCoord((x0, y0));
-            activCreature.Attack(attakedCreature);
+            gm.MiddleAttack(x0, y0);
 
-            IsKillCreature(y0, x0, attakedCreature);
+            if (gm.IsKillCreature(gm.GetCreatureForCoord((x0, y0))))
+                mapButtons[x0, y0].Image = null;
             Step();
         }
 
-        private void IsKillCreature(int y, int x, CreatureStack attakedCreature)
+        private void SetTargetForAttack(int x, int y)
         {
-            if (attakedCreature.NumCreatures <= 0)
-            {
-                gm.DeleteCreatue(attakedCreature);
-                mapButtons[x, y].Image = null;
-            }
-        }
-
-        private void SetTargetForAttack(int y, int x)
-        {
-            mapButtons[activCreature.Coord.Item1, activCreature.Coord.Item2].Image = null;
+            mapButtons[gm.ActivCreature.Coord.Item1, gm.ActivCreature.Coord.Item2].Image = null;
             var a = gm.GetHexagonsForMove(new CreatureStack(null, 0, (x, y)), 1);
 
             foreach (var coord in a)
+            {
                 mapButtons[coord.Item1, coord.Item2].BackColor = Color.IndianRed;
-        }
-
-        private void MoveCreature(int y, int x)
-        {
-            mapButtons[activCreature.Coord.Item1, activCreature.Coord.Item2].Image = null;
-            activCreature.Coord = (x, y);
-            Step();
+                buttonsForAttack.Add(mapButtons[coord.Item1, coord.Item2]);
+            }
         }
 
         private void DrawCreature(CreatureStack creature)
@@ -109,7 +111,7 @@ namespace WarOfLightModule
             mapButtons[creature.Coord.Item1, creature.Coord.Item2].Image = creature.Creature.Bitmap;
             mapButtons[creature.Coord.Item1, creature.Coord.Item2].Text = creature.NumCreatures.ToString();
             mapButtons[creature.Coord.Item1, creature.Coord.Item2].TextAlign = ContentAlignment.BottomCenter;
-            mapButtons[creature.Coord.Item1, creature.Coord.Item2].ForeColor = Color.Aqua;
+            mapButtons[creature.Coord.Item1, creature.Coord.Item2].ForeColor = Color.Black;
             mapButtons[creature.Coord.Item1, creature.Coord.Item2].Enabled = true;
         }
 
@@ -175,14 +177,53 @@ namespace WarOfLightModule
                 }
 
             DrawAllCretures();
-            Shot.Enabled = activCreature.Creature.BasicShots != 0;
+            Shot.Enabled = gm.ActivCreature.Creature.BasicShots != 0;
             Shot.BackColor = Color.White;
         }
 
         private void Step()
         {
-            if (gm.enemyStacks.Count == 0)
-                BattleTable.ActiveForm.Close();
+            if (gm.enemyStacks.Count == 0 || gm.playerStacks.Count == 0)
+            {
+                var form = new WinOrLossForm(true);
+                form.Show();
+                this.Close();
+            }
+
+            SetDefautMap();
+            DrawAllCretures();
+
+            gm.NextCreatureStep();
+
+            if (gm.playerStacks.Contains(gm.ActivCreature))
+                SetPlayerMove();
+
+            else
+                EnemyMove();
+        }
+
+        private void EnemyMove()
+        {
+            Shot.Enabled = gm.ActivCreature.Creature.BasicShots != 0;
+            var (playerStack, hexagon) = gm.MoveEnemy();
+            var creature = gm.GetCreatureForCoord(playerStack);
+            if (creature != null && gm.IsKillCreature(creature))
+                mapButtons[playerStack.Item1, playerStack.Item2].Image = null;
+
+            mapButtons[gm.ActivCreature.Coord.Item1, gm.ActivCreature.Coord.Item2].Image = null;
+            gm.MoveCreature(hexagon.Item1, hexagon.Item2);
+            Step();
+        }
+
+        private void SetPlayerMove()
+        {
+            SetMoveHex(gm.ActivCreature, gm.ActivCreature.Creature.Move);
+            Shot.Enabled = gm.ActivCreature.Creature.BasicShots != 0;
+            Shot.BackColor = Color.White;
+        }
+
+        private void SetDefautMap()
+        {
             for (int y = 0; y < map.CountY; y++)
                 for (int x = 0; x < map.CountX; x++)
                 {
@@ -190,13 +231,6 @@ namespace WarOfLightModule
                     mapButtons[x, y].BackColor = Color.ForestGreen;
                     mapButtons[x, y].Text = null;
                 }
-
-            DrawAllCretures();
-
-            activCreature = gm.NextCreatureStep();
-            SetMoveHex(activCreature, activCreature.Creature.Move);
-            Shot.Enabled = activCreature.Creature.BasicShots != 0;
-            Shot.BackColor = Color.White;
         }
 
         private void DrawAllCretures()

@@ -20,7 +20,6 @@ namespace WarOfLightModule
             hp = 3;
             initiative = 8;
             move = 5;
-            basicShots = 2;
             bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\PlayerCreature\\Recruit.png");
         }
     }
