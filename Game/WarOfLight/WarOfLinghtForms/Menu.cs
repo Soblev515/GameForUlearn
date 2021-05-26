@@ -38,6 +38,14 @@ namespace WarOfLinghtForms
         private void button4_Click(object sender, EventArgs e)
         {
             this.Close();
+            Application.Exit();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var Level2 = new BattleTable(2);
+            Level2.Show();
+            this.Hide();
         }
 
 

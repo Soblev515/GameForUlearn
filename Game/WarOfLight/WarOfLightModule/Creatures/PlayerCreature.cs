@@ -24,22 +24,6 @@ namespace WarOfLightModule
         }
     }
 
-    public class Spearman : Creature
-    {
-        public Spearman()
-        {
-            cost = 30;
-            basicGrowth = 22;
-            attack = 2;
-            defense = 2;
-            damage = (1, 2);
-            hp = 7;
-            initiative = 8;
-            move = 4;
-            bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\PikemanEnemy.png");
-        }
-    }
-
     public class Archer : Creature
     {
         public Archer()

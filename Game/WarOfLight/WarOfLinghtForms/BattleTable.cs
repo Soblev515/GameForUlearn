@@ -28,7 +28,7 @@ namespace WarOfLightModule
             InitializeComponent();
             this.ClientSize = new Size(1800,900);
             map = new Map(new Point(160, 20), sizeHex);
-            gm = new GameManager(map, 1);
+            gm = new GameManager(map, level);
             mapButtons = new PolygonButton[map.CountX, map.CountY];
             this.BackColor = Color.LightGreen;
             gm.NextCreatureStep();

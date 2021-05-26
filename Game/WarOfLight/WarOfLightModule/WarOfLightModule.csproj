@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Creatures\EnemyCreture.cs" />
     <Compile Include="EnemyLogic.cs" />
     <Compile Include="Levels.cs" />
     <Compile Include="GameManager.cs" />
