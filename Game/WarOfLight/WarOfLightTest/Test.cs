@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using WarOfLightModule;
@@ -54,7 +55,30 @@ namespace WarOfLightTests
 
             gm.RangeAttack(14, 1);
 
-            Assert.Equal(1, creture.NumCreatures);
+            Assert.Equal(7, creture.NumCreatures);
+        }
+
+        [Fact]
+        public void GetHexagonsForOddMoveTest()
+        {
+            gm.NextCreatureStep();
+            var currHexagons = new List<(int, int)> { (3, 4), (3, 5), (3, 6), (4, 4), (4, 6), (5, 5) };
+            
+            Assert.Equal(currHexagons, gm.GetHexagonsForMove(gm.ActivCreature, 1).OrderBy(p => p).ToList());
+        }
+
+        [Fact]
+        public void GetHexagonsForEvenMoveTest()
+        {
+            gm.NextCreatureStep();
+            var currHexagons = new List<(int, int)> { (2, 4), (2, 5), (2, 6), 
+                                                    (3, 3), (3, 4), (3, 5), (3, 6), (3, 7), 
+                                                    (4, 3), (4, 4), (4, 6), (4, 7), 
+                                                    (5, 3), (5, 4), (5, 5), (5, 6), (5, 7), 
+                                                    (6, 5) };
+            var a = gm.GetHexagonsForMove(gm.ActivCreature, 2).OrderBy(p => p).ToList();
+
+            Assert.Equal(currHexagons, gm.GetHexagonsForMove(gm.ActivCreature, 2).OrderBy(p => p).ToList());
         }
     }
 }

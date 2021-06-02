@@ -24,6 +24,7 @@ namespace WarOfLightModule
         private readonly List<Button> buttonsForMove = new List<Button>();
         private readonly List<Button> buttonsForAttack = new List<Button>(); 
         private (int,int) CoordAttack = (0, 0);
+        private bool CanShot = false;
 
         public BattleTable(int level)
         {
@@ -37,6 +38,7 @@ namespace WarOfLightModule
             Init();
             SetMoveHex(gm.ActivCreature, gm.ActivCreature.Creature.Move);
             this.FormClosing += new FormClosingEventHandler(this.Form1_FormClosing);
+            this.KeyDown += ClickShotKey;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -56,7 +58,7 @@ namespace WarOfLightModule
             if (gm.GetCreatureForCoord((x, y)) == gm.ActivCreature)
                 return;
 
-            if (Shot.Enabled)
+            if (CanShot && gm.enemyStacks.Contains(gm.GetCreatureForCoord((x, y))))
                 RangeAttack(x, y);
             else if (buttonsForAttack.Contains(sender))
             {
@@ -69,7 +71,16 @@ namespace WarOfLightModule
                 MoveCreature(x, y);
         }
 
-        private void MoveCreature(int x, int y)
+        private void ClickShotKey (object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.S && gm.ActivCreature.Creature.BasicShots != 0)
+            {
+                CanShot = !CanShot;
+                Shot.BackColor = CanShot? Color.BlueViolet: Color.White;
+            }                
+        }
+
+    private void MoveCreature(int x, int y)
         {
             mapButtons[gm.ActivCreature.Coord.Item1, gm.ActivCreature.Coord.Item2].Image = null;
             gm.MoveCreature(x, y);
@@ -148,6 +159,8 @@ namespace WarOfLightModule
                     mapButtons[coord.Item1, coord.Item2].Enabled = true;
                     mapButtons[coord.Item1, coord.Item2].BackColor = Color.OrangeRed;
                 }
+
+                CanShot = true;
                 Shot.BackColor = Color.BlueViolet;
             }
 
@@ -158,6 +171,8 @@ namespace WarOfLightModule
                     mapButtons[coord.Item1, coord.Item2].Enabled = false;
                     mapButtons[coord.Item1, coord.Item2].BackColor = Color.ForestGreen;
                 }
+
+                CanShot = false;
                 Shot.BackColor = Color.White;
             }
 
@@ -188,27 +203,29 @@ namespace WarOfLightModule
                 }
 
             DrawAllCretures();
-            var coord = gm.ActivCreature.Coord;
             Shot.Enabled = gm.ActivCreature.Creature.BasicShots != 0;
             Shot.BackColor = Color.White;
+            mapButtons[gm.ActivCreature.Coord.Item1, gm.ActivCreature.Coord.Item2].ForeColor = Color.Red;
         }
 
         private void Step()
         {
+            buttonsForMove.RemoveRange(0, buttonsForMove.Count);
+            SetDefautMap();
+            DrawAllCretures();
+
             if (gm.enemyStacks.Count == 0 || gm.playerStacks.Count == 0)
             {
+                Thread.Sleep(1000);
                 var form = new WinOrLossForm(gm.enemyStacks.Count == 0);
                 form.Show();
                 this.Close();
             }
             else
             {
-                buttonsForMove.RemoveRange(0, buttonsForMove.Count);
-                SetDefautMap();
-                DrawAllCretures();
-
-
                 gm.NextCreatureStep();
+                mapButtons[gm.ActivCreature.Coord.Item1, gm.ActivCreature.Coord.Item2].ForeColor = Color.Red;
+
                 if (gm.playerStacks.Contains(gm.ActivCreature))
                     SetPlayerMove();
 
@@ -219,6 +236,7 @@ namespace WarOfLightModule
 
         private void EnemyMove()
         {
+            mapButtons[gm.ActivCreature.Coord.Item1, gm.ActivCreature.Coord.Item2].ForeColor = Color.Red;
             Shot.Enabled = gm.ActivCreature.Creature.BasicShots != 0;
             var (playerStack, hexagon) = gm.MoveEnemy();
             var creature = gm.GetCreatureForCoord(playerStack);
@@ -234,6 +252,7 @@ namespace WarOfLightModule
         {
             SetMoveHex(gm.ActivCreature, gm.ActivCreature.Creature.Move);
             Shot.Enabled = gm.ActivCreature.Creature.BasicShots != 0;
+            CanShot = false;
             Shot.BackColor = Color.White;
         }
 

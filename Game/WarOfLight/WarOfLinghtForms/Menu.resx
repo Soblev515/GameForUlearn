@@ -117,4 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label1.Text" xml:space="preserve">
+    <value>War Of Light
+ Игра вдохновленная серией игр "Heroes of might and magic"!
+В данной игре реализованы только лишь пошаговые бои.
+Цель, победить противника и пройти все уровни.
+Перемешаться можно в свой ход по темно - зелённым клеткам
+Для ближней атаки нажмите на противника(если достаете),
+а после выберите с какой стороны нанести удар.
+Для дальней атаки, у существа должны быть стрелы
+Нажмите кнопку "Shot" или клавишу 'S', а после на противника.</value>
+  </data>
 </root>

@@ -18,8 +18,8 @@ namespace WarOfLightModule
             defense = 1;
             damage = (1, 1);
             hp = 3;
-            initiative = 8;
-            move = 5;
+            initiative = 6;
+            move = 2;
             bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\PlayerCreature\\Recruit.png");
         }
     }
@@ -34,7 +34,7 @@ namespace WarOfLightModule
             defense = 3;
             damage = (2, 4);
             hp = 7;
-            initiative = 9;
+            initiative = 7;
             move = 4;
             basicShots = 10;
             bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\PlayerCreature\\Archer.png");

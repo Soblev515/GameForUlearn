@@ -120,10 +120,10 @@ namespace WarOfLightModule
                     if (creatureStack.Coord == (col, row))
                         continue;
                     if (col < map.CountX && row < map.CountY
-                        && col >= 0 && row >= 0)
+                        && col >= 0 && row >= 0 && !list.Contains((col, row)))
                         list.Add((col, row));
                     if (col < map.CountX && 2 * y - row < map.CountY
-                        && col >= 0 && 2 * y - row >= 0)
+                        && col >= 0 && 2 * y - row >= 0 && !list.Contains((col, 2 * y - row)))
                         list.Add((col, 2 * y - row));
                 }
                 p++;
@@ -139,10 +139,10 @@ namespace WarOfLightModule
                     if (creatureStack.Coord == (col, row))
                         continue;
                     if (col < map.CountX && row < map.CountY
-                        && col >= 0 && row >= 0)
+                        && col >= 0 && row >= 0 && !list.Contains((col, row)))
                         list.Add((col, row));
                     if (col < map.CountX && 2 * y - row < map.CountY
-                        && col >= 0 && 2 * y - row >= 0)
+                        && col >= 0 && 2 * y - row >= 0 && !list.Contains((col, 2 * y - row)))
                         list.Add((col, 2 * y - row));
                 }
                 p++;
@@ -160,10 +160,10 @@ namespace WarOfLightModule
                     if (creatureStack.Coord == (col, row))
                         continue;
                     if (col < map.CountX && row < map.CountY
-                        && col >= 0 && row >= 0)
+                        && col >= 0 && row >= 0 && !list.Contains((col, row)))
                         list.Add((col, row));
                     if (col < map.CountX && 2 * y - row < map.CountY
-                        && col >= 0 && 2 * y - row >= 0)
+                        && col >= 0 && 2 * y - row >= 0 && !list.Contains((col, 2 * y - row)))
                         list.Add((col, 2 * y - row));
                 }
                 p++;
@@ -179,10 +179,10 @@ namespace WarOfLightModule
                     if (creatureStack.Coord == (col, row))
                         continue;
                     if (col < map.CountX && row < map.CountY
-                        && col >= 0 && row >= 0)
+                        && col >= 0 && row >= 0 && !list.Contains((col, row)))
                         list.Add((col, row));
                     if (col < map.CountX && 2 * y - row < map.CountY
-                        && col >= 0 && 2 * y - row >= 0)
+                        && col >= 0 && 2 * y - row >= 0 && !list.Contains((col, 2 * y - row)))
                         list.Add((col, 2 * y - row));
                 }
                 p++;
