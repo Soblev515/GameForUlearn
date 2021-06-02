@@ -46,6 +46,15 @@ namespace WarOfLightModule
                 case 7:
                     levels.SeventhLevel(this);
                     break;
+                case 8:
+                    levels.EighthLevel(this);
+                    break;
+                case 9:
+                    levels.NinthLevel(this);
+                    break;
+                case 10:
+                    levels.TenthLevel(this);
+                    break;
                 default:
                     levels.FirstLevel(this);
                     break;
@@ -66,26 +75,16 @@ namespace WarOfLightModule
         }
 
         public void MoveCreature(int x, int y)
-        {
-            ActivCreature.SetCoord((x, y));
-        }
+            => ActivCreature.SetCoord((x, y));
 
         public void RangeAttack(int x, int y)
-        {
-            var attakedCreature = GetCreatureForCoord((x, y));
-            ActivCreature.Shot(attakedCreature);
-        }
+            => ActivCreature.Shot(GetCreatureForCoord((x, y)));
 
         public void MiddleAttack(int x, int y)
-        {
-            var attakedCreature = GetCreatureForCoord((x, y));
-            ActivCreature.Attack(attakedCreature);
-        }
+            => ActivCreature.Attack(GetCreatureForCoord((x, y)));
 
         public ((int, int), (int, int)) MoveEnemy()
-        {
-            return enemyLogic.StepEnemyStack(this);
-        } 
+            => enemyLogic.StepEnemyStack(this);
 
         public bool IsKillCreature(CreatureStack Creature)
         {

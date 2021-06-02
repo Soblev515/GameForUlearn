@@ -21,8 +21,9 @@ namespace WarOfLightModule
         private readonly GameManager gm;
         private readonly Button[,] mapButtons;
         private readonly int sizeHex = 40;
-        private List<Button> buttonsForMove = new List<Button>();
-        private List<Button> buttonsForAttack = new List<Button>(); 
+        private readonly List<Button> buttonsForMove = new List<Button>();
+        private readonly List<Button> buttonsForAttack = new List<Button>(); 
+        private (int,int) CoordAttack = (0, 0);
 
         public BattleTable(int level)
         {
@@ -87,23 +88,19 @@ namespace WarOfLightModule
         private void MiddleAttack(int x, int y)
         {
             mapButtons[gm.ActivCreature.Coord.Item1, gm.ActivCreature.Coord.Item2].Image = null;
-            var a = gm.GetHexagonsForMove(new CreatureStack(null, 0, (x, y)), 1);
-            var (x0, y0) = (0, 0);
-
-            foreach (var coord in a)
-                if (mapButtons[coord.Item1, coord.Item2].BackColor == Color.Red)
-                    (x0, y0) = coord;
+            
             gm.ActivCreature.Coord = (x, y);
 
-            gm.MiddleAttack(x0, y0);
+            gm.MiddleAttack(CoordAttack.Item1, CoordAttack.Item2);
 
-            if (gm.IsKillCreature(gm.GetCreatureForCoord((x0, y0))))
-                mapButtons[x0, y0].Image = null;
+            if (gm.IsKillCreature(gm.GetCreatureForCoord((CoordAttack.Item1, CoordAttack.Item2))))
+                mapButtons[CoordAttack.Item1, CoordAttack.Item2].Image = null;
             Step();
         }
 
         private void SetTargetForAttack(int x, int y)
         {
+            CoordAttack = (x, y);
             mapButtons[gm.ActivCreature.Coord.Item1, gm.ActivCreature.Coord.Item2].Image = null;
             var a = gm.GetHexagonsForMove(new CreatureStack(null, 0, (x, y)), 1);
 
@@ -212,7 +209,6 @@ namespace WarOfLightModule
 
 
                 gm.NextCreatureStep();
-                var coord = gm.ActivCreature.Coord;
                 if (gm.playerStacks.Contains(gm.ActivCreature))
                     SetPlayerMove();
 
@@ -224,7 +220,6 @@ namespace WarOfLightModule
         private void EnemyMove()
         {
             Shot.Enabled = gm.ActivCreature.Creature.BasicShots != 0;
-            var coord = gm.ActivCreature.Coord;
             var (playerStack, hexagon) = gm.MoveEnemy();
             var creature = gm.GetCreatureForCoord(playerStack);
             Thread.Sleep(1000);

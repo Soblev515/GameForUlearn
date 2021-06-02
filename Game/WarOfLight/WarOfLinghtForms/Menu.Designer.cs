@@ -48,7 +48,7 @@
             this.button1.Size = new System.Drawing.Size(94, 23);
             this.button1.TabIndex = 4;
             this.button1.Text = "Уровень 1";
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // button4
             // 
@@ -58,7 +58,7 @@
             this.button4.TabIndex = 3;
             this.button4.Text = "Выход";
             this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.Click += new System.EventHandler(this.Button4_Click);
             // 
             // button2
             // 
@@ -68,7 +68,7 @@
             this.button2.TabIndex = 5;
             this.button2.Text = "Уровень 2";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
             // button3
             // 
@@ -78,7 +78,7 @@
             this.button3.TabIndex = 6;
             this.button3.Text = "Уровень 3";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.Button3_Click);
             // 
             // button5
             // 
@@ -88,7 +88,7 @@
             this.button5.TabIndex = 7;
             this.button5.Text = "Уровень 4";
             this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button5.Click += new System.EventHandler(this.Button5_Click);
             // 
             // button6
             // 
@@ -98,7 +98,7 @@
             this.button6.TabIndex = 8;
             this.button6.Text = "Уровень 5";
             this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button6.Click += new System.EventHandler(this.Button6_Click);
             // 
             // button7
             // 
@@ -108,7 +108,7 @@
             this.button7.TabIndex = 9;
             this.button7.Text = "Уровень 6";
             this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.button7.Click += new System.EventHandler(this.Button7_Click);
             // 
             // button8
             // 
@@ -118,7 +118,7 @@
             this.button8.TabIndex = 10;
             this.button8.Text = "Уровень 7";
             this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.button8.Click += new System.EventHandler(this.Button8_Click);
             // 
             // button9
             // 
@@ -128,6 +128,7 @@
             this.button9.TabIndex = 11;
             this.button9.Text = "Уровень 8";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.Button9_Click);
             // 
             // button10
             // 
@@ -137,6 +138,7 @@
             this.button10.TabIndex = 12;
             this.button10.Text = "Уровень 9";
             this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.Button10_Click);
             // 
             // button11
             // 
@@ -146,6 +148,7 @@
             this.button11.TabIndex = 13;
             this.button11.Text = "Уровень 10";
             this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.Button11_Click);
             // 
             // Menu
             // 

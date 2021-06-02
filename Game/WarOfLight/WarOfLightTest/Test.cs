@@ -11,8 +11,8 @@ namespace WarOfLightTests
 {
     public class GameManagerTests
     {
-        private static Map map = new Map(new Point(160, 20), 40);
-        private GameManager gm = new GameManager(map, 1);
+        private static readonly Map map = new Map(new Point(160, 20), 40);
+        private readonly GameManager gm = new GameManager(map, 1);
 
         [Fact]
         public void MoveCreatureTest()
