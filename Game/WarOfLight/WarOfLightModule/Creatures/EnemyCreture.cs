@@ -17,7 +17,7 @@ namespace WarOfLightModule.Creatures
             defense = 2;
             damage = (1, 2);
             hp = 7;
-            initiative = 8;
+            initiative = 5;
             move = 4;
             bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\EnemyCreature\\Bandits\\Thief.png");
         }
@@ -33,7 +33,7 @@ namespace WarOfLightModule.Creatures
             defense = 4;
             damage = (2, 8);
             hp = 10;
-            initiative = 8;
+            initiative = 6;
             move = 4;
             basicShots = 12;
             bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\EnemyCreature\\Bandits\\Thrower.png");

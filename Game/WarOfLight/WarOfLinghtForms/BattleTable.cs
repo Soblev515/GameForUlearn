@@ -25,6 +25,7 @@ namespace WarOfLightModule
         private readonly List<Button> buttonsForAttack = new List<Button>(); 
         private (int,int) CoordAttack = (0, 0);
         private bool CanShot = false;
+        private bool BackMenu = false;
 
         public BattleTable(int level)
         {
@@ -43,7 +44,7 @@ namespace WarOfLightModule
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.UserClosing && gm.playerStacks.Count !=0 && gm.enemyStacks.Count !=0)
+            if (e.CloseReason == CloseReason.UserClosing && gm.playerStacks.Count !=0 && gm.enemyStacks.Count !=0 && !BackMenu)
                 Application.Exit();
         }
 
@@ -276,5 +277,12 @@ namespace WarOfLightModule
                 DrawCreature(stack);
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var menu = new WarOfLinghtForms.Menu();
+            menu.Show();
+            BackMenu = true;
+            this.Close();
+        }
     }
 }

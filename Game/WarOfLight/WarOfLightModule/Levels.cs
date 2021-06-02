@@ -22,8 +22,8 @@ namespace WarOfLightModule
         {
             gm.playerStacks.Add(new CreatureStack(new Horseman(), 15, (3, 8)));
             gm.playerStacks.Add(new CreatureStack(new Horseman(), 20, (0, 3)));
-            gm.enemyStacks.Add(new CreatureStack(new Thrower(), 40, (12, 4)));
-            gm.enemyStacks.Add(new CreatureStack(new Thrower(), 30, (13, 7)));
+            gm.enemyStacks.Add(new CreatureStack(new Thrower(), 45, (12, 4)));
+            gm.enemyStacks.Add(new CreatureStack(new Thrower(), 70, (13, 7)));
         }
 
         public void ThirdLevel(GameManager gm)
