@@ -16,6 +16,7 @@ namespace WarOfLightModule
 
         private static int widthHex;
         private static int heightHex;
+
         public Map(Point startPoint, int sizeHexagons)
         {
             Field = new Hexagon[CountX, CountY];

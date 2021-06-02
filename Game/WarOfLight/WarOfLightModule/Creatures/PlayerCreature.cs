@@ -53,7 +53,7 @@ namespace WarOfLightModule
             hp = 16;
             initiative = 8;
             move = 4;
-            bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\PikemanEnemy.png");
+            bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\PlayerCreature\\Swordsman.png");
         }
     }
 
@@ -65,11 +65,11 @@ namespace WarOfLightModule
             basicGrowth = 2;
             attack = 23;
             defense = 21;
-            damage = (20, 30);
+            damage = (5, 10);
             hp = 90;
             initiative = 11;
             move = 7;
-            bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\PikemanEnemy.png");
+            bitmap = new Bitmap("D:\\Project\\GameForUlearn\\Game\\WarOfLight\\WarOfLinghtForms\\Images\\PlayerCreature\\Horseman.png");
         }
     }
 }

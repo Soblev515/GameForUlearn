@@ -20,12 +20,23 @@ namespace WarOfLinghtForms
         public Menu()
         {
             InitializeComponent();
-            button1.Text = "Level 1";
+            this.FormClosing += new FormClosingEventHandler(this.Form1_FormClosing);
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+                Application.Exit();
+        }
         private void Menu_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Application.Exit();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -35,12 +46,6 @@ namespace WarOfLinghtForms
             this.Hide();
         }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            this.Close();
-            Application.Exit();
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
             var Level2 = new BattleTable(2);
@@ -48,27 +53,39 @@ namespace WarOfLinghtForms
             this.Hide();
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var Level3 = new BattleTable(3);
+            Level3.Show();
+            this.Hide();
+        }
 
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    for (int y = 0; y < map.CountY; y++)
-        //        for (int x = 0; x < map.CountX; x++)
-        //        {
-        //            mapButtons[x, y] = new PolygonButton();
+        private void button5_Click(object sender, EventArgs e)
+        {
+            var Level4 = new BattleTable(4);
+            Level4.Show();
+            this.Hide();
+        }
 
-        //            PolygonButton butt = new PolygonButton
-        //            {
-        //                Location = new Point(map.Field[x, y].Center.X - size, map.Field[x, y].Center.Y - size),
-        //                Size = new Size(2 * size, 2 * size)
-        //            };
+        private void button6_Click(object sender, EventArgs e)
+        {
+            var Level5 = new BattleTable(5);
+            Level5.Show();
+            this.Hide();
+        }
 
-        //            butt.BackColor = Color.ForestGreen;
-        //            this.Controls.Add(butt);
-        //            butt.Enabled = false;
+        private void button7_Click(object sender, EventArgs e)
+        {
+            var Level6 = new BattleTable(6);
+            Level6.Show();
+            this.Hide();
+        }
 
-        //            mapButtons[x, y] = butt;
-        //            mapButtons[x, y].Click += OnFigurePress;
-        //        }               
-        //}
+        private void button8_Click(object sender, EventArgs e)
+        {
+            var Level7 = new BattleTable(7);
+            Level7.Show();
+            this.Hide();
+        }
     }
 }

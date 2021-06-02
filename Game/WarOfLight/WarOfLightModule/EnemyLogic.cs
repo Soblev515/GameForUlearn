@@ -23,7 +23,7 @@ namespace WarOfLightModule
             var playerStack = FindPlayerStack(gm);
             if (gm.ActivCreature.Creature.BasicShots != 0)
             {
-                gm.RangeAttack(playerStack.Coord.Item2, playerStack.Coord.Item1);
+                gm.RangeAttack(playerStack.Coord.Item1, playerStack.Coord.Item2);
                 return (playerStack.Coord, gm.ActivCreature.Coord);
             }
             var hexagons = gm.GetHexagonsForMove(gm.ActivCreature, gm.ActivCreature.Creature.Move);
@@ -31,16 +31,17 @@ namespace WarOfLightModule
             var min = double.MaxValue;
             if (hexagons.Contains(playerStack.Coord))
             {
-                var hexagonsForAttack = gm.GetHexagonsForMove(gm.ActivCreature, 1);
+                var hexagonsForAttack = gm.GetHexagonsForMove(playerStack, 1);
                 foreach (var hexagon in hexagonsForAttack)
-                    if (GetDistantion(gm.ActivCreature, hexagon) < min)
+                    if (GetDistantion(gm.ActivCreature, hexagon) < min && !gm.enemyStacks.Contains(gm.GetCreatureForCoord(hexagon))
+                        && !gm.playerStacks.Contains(gm.GetCreatureForCoord(hexagon)))
                         (resultHexagon, min) = (hexagon, GetDistantion(playerStack, hexagon));
                 gm.MiddleAttack(playerStack.Coord.Item1, playerStack.Coord.Item2);
             }
             else
             {
                 foreach (var hexagon in hexagons)
-                    if (GetDistantion(playerStack, hexagon) < min)
+                    if (GetDistantion(playerStack, hexagon) < min && gm.GetCreatureForCoord(hexagon) == null)
                         (resultHexagon, min) = (hexagon, GetDistantion(playerStack, hexagon));
             }
 

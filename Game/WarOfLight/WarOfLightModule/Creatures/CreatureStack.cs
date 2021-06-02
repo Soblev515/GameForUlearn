@@ -28,7 +28,7 @@ namespace WarOfLightModule
 
         public void SetCoord((int, int) coord)
         {
-            if(coord.Item1>=0 && coord.Item2>=0)
+            if(coord.Item1 >= 0 && coord.Item2 >= 0)
                 Coord = coord;
         }
 
@@ -37,7 +37,7 @@ namespace WarOfLightModule
 
         public void Shot(CreatureStack Attacked)
         {
-            Attacked.NumCreatures -= TotalDamage(Attacked);
+            Attacked.NumCreatures -= (int)(0.7 * TotalDamage(Attacked));
             Creature.Shot();
         }
 

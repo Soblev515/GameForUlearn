@@ -21,6 +21,7 @@ namespace WarOfLightModule
         private readonly GameManager gm;
         private readonly Button[,] mapButtons;
         private readonly int sizeHex = 40;
+        private List<Button> buttonsForMove = new List<Button>();
         private List<Button> buttonsForAttack = new List<Button>(); 
 
         public BattleTable(int level)
@@ -34,9 +35,16 @@ namespace WarOfLightModule
             gm.NextCreatureStep();
             Init();
             SetMoveHex(gm.ActivCreature, gm.ActivCreature.Creature.Move);
+            this.FormClosing += new FormClosingEventHandler(this.Form1_FormClosing);
         }
 
-        public void OnFigurePress(object sender, EventArgs e)
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing && gm.playerStacks.Count !=0 && gm.enemyStacks.Count !=0)
+                Application.Exit();
+        }
+
+        private void OnFigurePress(object sender, EventArgs e)
         {
             Button pressedButton = sender as Button;
             var y = (pressedButton.Top) / (Hexagon.GetWidthAndHeigth(sizeHex).Item2 - 20);
@@ -47,16 +55,16 @@ namespace WarOfLightModule
             if (gm.GetCreatureForCoord((x, y)) == gm.ActivCreature)
                 return;
 
-            if (Shot.Enabled) 
+            if (Shot.Enabled)
                 RangeAttack(x, y);
             else if (buttonsForAttack.Contains(sender))
             {
                 MiddleAttack(x, y);
-                buttonsForAttack.RemoveRange(0, buttonsForAttack.Count-1);
+                buttonsForAttack.RemoveRange(0, buttonsForAttack.Count);
             }
-            else if (gm.enemyStacks.Contains(gm.GetCreatureForCoord((x, y))))
+            else if (gm.enemyStacks.Contains(gm.GetCreatureForCoord((x, y))) && buttonsForMove.Contains(mapButtons[x,y]))
                 SetTargetForAttack(x, y);
-            else 
+            else if (buttonsForMove.Contains(mapButtons[x, y]))
                 MoveCreature(x, y);
         }
 
@@ -101,8 +109,11 @@ namespace WarOfLightModule
 
             foreach (var coord in a)
             {
-                mapButtons[coord.Item1, coord.Item2].BackColor = Color.IndianRed;
-                buttonsForAttack.Add(mapButtons[coord.Item1, coord.Item2]);
+                if(gm.GetCreatureForCoord(coord) == null)
+                {
+                    mapButtons[coord.Item1, coord.Item2].BackColor = Color.IndianRed;
+                    buttonsForAttack.Add(mapButtons[coord.Item1, coord.Item2]);
+                }
             }
         }
 
@@ -123,6 +134,7 @@ namespace WarOfLightModule
             {
                 if (gm.GetCoordCreatores(gm.playerStacks).Contains(b))
                     continue;
+                buttonsForMove.Add(mapButtons[b.Item1, b.Item2]);
                 mapButtons[b.Item1, b.Item2].Enabled = true;
                 mapButtons[b.Item1, b.Item2].BackColor = gm.GetCoordCreatores(gm.enemyStacks).Contains(b) ?
                                                                     Color.Red : Color.DarkGreen;
@@ -167,7 +179,9 @@ namespace WarOfLightModule
                         Location = new Point(map.Field[x, y].Center.X - size, map.Field[x, y].Center.Y - size),
                         Size = new Size(2 * size, 2 * size)
                     };
+                    butt.FlatStyle = FlatStyle.Standard;
 
+                    butt.FlatAppearance.BorderColor = Color.ForestGreen;
                     butt.BackColor = Color.ForestGreen;
                     this.Controls.Add(butt);
                     butt.Enabled = false;
@@ -177,6 +191,7 @@ namespace WarOfLightModule
                 }
 
             DrawAllCretures();
+            var coord = gm.ActivCreature.Coord;
             Shot.Enabled = gm.ActivCreature.Creature.BasicShots != 0;
             Shot.BackColor = Color.White;
         }
@@ -185,31 +200,36 @@ namespace WarOfLightModule
         {
             if (gm.enemyStacks.Count == 0 || gm.playerStacks.Count == 0)
             {
-                var form = new WinOrLossForm(true);
+                var form = new WinOrLossForm(gm.enemyStacks.Count == 0);
                 form.Show();
                 this.Close();
             }
-
-            SetDefautMap();
-            DrawAllCretures();
-
-            gm.NextCreatureStep();
-
-            if (gm.playerStacks.Contains(gm.ActivCreature))
-                SetPlayerMove();
-
             else
-                EnemyMove();
+            {
+                buttonsForMove.RemoveRange(0, buttonsForMove.Count);
+                SetDefautMap();
+                DrawAllCretures();
+
+
+                gm.NextCreatureStep();
+                var coord = gm.ActivCreature.Coord;
+                if (gm.playerStacks.Contains(gm.ActivCreature))
+                    SetPlayerMove();
+
+                else
+                    EnemyMove();
+            }
         }
 
         private void EnemyMove()
         {
             Shot.Enabled = gm.ActivCreature.Creature.BasicShots != 0;
+            var coord = gm.ActivCreature.Coord;
             var (playerStack, hexagon) = gm.MoveEnemy();
             var creature = gm.GetCreatureForCoord(playerStack);
+            Thread.Sleep(1000);
             if (creature != null && gm.IsKillCreature(creature))
                 mapButtons[playerStack.Item1, playerStack.Item2].Image = null;
-
             mapButtons[gm.ActivCreature.Coord.Item1, gm.ActivCreature.Coord.Item2].Image = null;
             gm.MoveCreature(hexagon.Item1, hexagon.Item2);
             Step();
@@ -227,9 +247,10 @@ namespace WarOfLightModule
             for (int y = 0; y < map.CountY; y++)
                 for (int x = 0; x < map.CountX; x++)
                 {
-                    mapButtons[x, y].Enabled = false;
+                    mapButtons[x, y].FlatStyle = FlatStyle.Flat;
                     mapButtons[x, y].BackColor = Color.ForestGreen;
                     mapButtons[x, y].Text = null;
+                    mapButtons[x, y].Enabled = false;
                 }
         }
 

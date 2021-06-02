@@ -31,6 +31,21 @@ namespace WarOfLightModule
                 case 2:
                     levels.SecondLevel(this);
                     break;
+                case 3:
+                    levels.ThirdLevel(this);
+                    break;
+                case 4:
+                    levels.FourthLevel(this);
+                    break;
+                case 5:
+                    levels.FifthLevel(this);
+                    break;
+                case 6:
+                    levels.SixthLevel(this);
+                    break;
+                case 7:
+                    levels.SeventhLevel(this);
+                    break;
                 default:
                     levels.FirstLevel(this);
                     break;
@@ -52,7 +67,7 @@ namespace WarOfLightModule
 
         public void MoveCreature(int x, int y)
         {
-            ActivCreature.Coord = (x, y);
+            ActivCreature.SetCoord((x, y));
         }
 
         public void RangeAttack(int x, int y)

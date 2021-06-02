@@ -24,10 +24,9 @@ namespace WarOfLinghtForms
             label1.Width = 400;
             label1.Font = new Font("Tobota", 20, FontStyle.Italic);
             label1.Text = isWin ? "Уровень пройден!" : "Уровень не пройден!";
-
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             var menu = new Menu();
             menu.Show();
