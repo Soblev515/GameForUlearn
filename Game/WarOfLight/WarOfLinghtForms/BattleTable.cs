@@ -81,7 +81,7 @@ namespace WarOfLightModule
             }                
         }
 
-    private void MoveCreature(int x, int y)
+        private void MoveCreature(int x, int y)
         {
             mapButtons[gm.ActivCreature.Coord.Item1, gm.ActivCreature.Coord.Item2].Image = null;
             gm.MoveCreature(x, y);
